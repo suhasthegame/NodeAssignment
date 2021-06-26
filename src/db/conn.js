@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const config = require('../utils/config')
 
-mongoose.connect("mongodb://localhost:27017/logistics", {
+mongoose.connect(`mongodb://localhost:27017/${config.dbname}`, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,

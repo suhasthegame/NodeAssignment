@@ -1,14 +1,32 @@
 const express = require('express');
 const router = express.Router();
+const config = require('../utils/config');
 const Orders = require('../model/orders');
 const item = require('../model/items');
 const customer = require('../model/customer');
 const vehicle = require('../model/vehicles');
 
 
+const authenticate = (authToken) => {
+    try {
+        if (authToken !== config.authToken) {
+            throw new Error("Sorry, You're not allowed to access this API");
+        } else {
+            return true;
+        }
+    } catch (err) {
+        return `${err}`;
+    }
+}
 router.get('/', async (req, res, next) => {
-    const data = await Orders.getAllOrder();
-    console.log(data);
+    const authToken = req.headers.token;
+    const authResult = authenticate(authToken)
+    if (authResult === true) {
+        const data = await Orders.getAllOrder();
+        res.status(201).send(data)
+    } else {
+        res.status(400).send(authResult)
+    }
 })
 
 router.post('/', async (req, res, next) => {
