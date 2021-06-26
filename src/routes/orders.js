@@ -6,27 +6,11 @@ const item = require('../model/items');
 const customer = require('../model/customer');
 const vehicle = require('../model/vehicles');
 
+router.all('/', config.middleware);
 
-const authenticate = (authToken) => {
-    try {
-        if (authToken !== config.authToken) {
-            throw new Error("Sorry, You're not allowed to access this API");
-        } else {
-            return true;
-        }
-    } catch (err) {
-        return `${err}`;
-    }
-}
 router.get('/', async (req, res, next) => {
-    const authToken = req.headers.token;
-    const authResult = authenticate(authToken)
-    if (authResult === true) {
-        const data = await Orders.getAllOrder();
-        res.status(201).send(data)
-    } else {
-        res.status(400).send(authResult)
-    }
+    const data = await Orders.getAllOrder();
+    res.status(201).send(data);
 })
 
 router.post('/', async (req, res, next) => {

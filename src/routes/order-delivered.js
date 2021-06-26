@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const orders = require('../model/orders');
 const vehicle = require('../model/vehicles');
+const config = require('../utils/config');
+
+router.all('/', config.middleware);
 
 router.get('/', async (req, res, next) => {
     const records = await orders.getPendingOrders();

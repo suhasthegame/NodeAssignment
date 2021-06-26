@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const item = require('../model/items');
-
+const config = require('../utils/config')
+router.all('/', config.middleware);
 
 router.get('/', async (req, res, next) => {
     const data = await item.getAllItems();

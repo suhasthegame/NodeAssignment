@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const vehicle = require('../model/vehicles');
+const config = require('../utils/config')
+router.all('/', config.middleware);
 
 
 router.get('/', (req, res, next) => {
